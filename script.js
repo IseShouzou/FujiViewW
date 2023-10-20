@@ -175,17 +175,17 @@ function CameraView( canvas ){
     //              [  0.2,  0.5, -0.2 ],
     //              [ -0.2,  0.5, -0.2 ] ];
 
-    //this.pnts = [ [ -0.2, -0.4, -0.5 ],
-    //              [  0.2, -0.4, -0.5 ],
-    //              [  0.2, -0.1, -0.5 ],
-    //              [ -0.2, -0.1, -0.5 ] ];
+    this.pnts = [ [ -0.5, -0.3, -0.5 ],
+                  [  0.0, -0.3, -0.5 ],
+                  [  0.0,  0.3, -0.5 ],
+                  [ -0.5,  0.3, -0.5 ] ];
 
-    this.pnts = [];
-    for( k=0; k<8; k++){
-        let ang = k / 8.0 * 2.0 * Math.PI;
-        //this.pnts.push( [ Math.cos(ang), -0.5, Math.sin(ang) ] );
-        this.pnts.push( [ -0.2, Math.cos(ang), Math.sin(ang) ] );
-    }
+    //this.pnts = [];
+    //for( k=0; k<8; k++){
+    //    let ang = k / 8.0 * 2.0 * Math.PI;
+    //    //this.pnts.push( [ Math.cos(ang), -0.5, Math.sin(ang) ] );
+    //    this.pnts.push( [ -0.2, Math.cos(ang), Math.sin(ang) ] );
+    //}
 
 }
 
