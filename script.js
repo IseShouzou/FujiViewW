@@ -3,7 +3,7 @@ onload = function(){
 
     document.oncontextmenu = function () {return false;}
 
-    let slider = true;
+    let slider = false;
 
     let sliderA = document.getElementById( "SliderAlpha" );
     let sliderB = document.getElementById( "SliderBeta"  );
