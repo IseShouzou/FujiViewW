@@ -3,7 +3,7 @@ onload = function(){
 
     document.oncontextmenu = function () {return false;}
 
-    let slider = false;
+    let slider = true;
 
     let sliderA = document.getElementById( "SliderAlpha" );
     let sliderB = document.getElementById( "SliderBeta"  );
@@ -195,7 +195,7 @@ CameraView.prototype.update = function( imageBitmap, dcm ){
     //console.log( 'update CameraView' );
 
     let W = this.canvas.width;
-    let H = this.canvas.height;
+    let H = this.canvas.height / 2.0;
 
     //
     //    calc curPnts
@@ -259,11 +259,14 @@ CameraView.prototype.update = function( imageBitmap, dcm ){
 
     ctx.save();
 
-    ctx.clearRect( 0, 0, W, H )
+    ctx.clearRect( 0, 0, W, 2.0 * H )
 
     //ctx.fillStyle = "#ddd";
     //ctx.fillRect(0, 0, W, H );
     //console.log( this.flag );
+
+    ctx.save();
+
 
     if( this.flag ){
         ctx.beginPath();
@@ -272,6 +275,25 @@ CameraView.prototype.update = function( imageBitmap, dcm ){
         ctx.lineWidth = 4;
         ctx.stroke();
     }
+
+
+    wb = imageBitmap.width;
+    hb = imageBitmap.height / 2.0;
+
+/*
+    if ( W / H < wb / hb ){
+        let w =  W / H * hb;
+        let h =  hb;
+        let x = ( wb - w ) / 2;
+        let y = 0;
+    } else {
+        let w =  wb;
+        let h =  H / W * wb;
+        let x =  0;
+        let y = ( hb - h ) / 2;
+    }
+
+*/
 
     ctx.beginPath();
     flag = true;
@@ -286,8 +308,9 @@ CameraView.prototype.update = function( imageBitmap, dcm ){
     ctx.stroke();
     ctx.clip();
 
-    wb = imageBitmap.width;
-    hb = imageBitmap.height;
+    //ctx.drawImage(imageBitmap, x, y, w, h, 0, 0 ,W, H );
+
+
     if ( W / H < wb / hb ){
         let w =  W / H * hb;
         let x = ( wb - w ) / 2;
@@ -297,6 +320,41 @@ CameraView.prototype.update = function( imageBitmap, dcm ){
         let y = ( hb - h ) / 2;
         ctx.drawImage(imageBitmap, 0, y, wb, h, 0, 0 ,W, H );
     }
+
+    ctx.restore();
+
+    ctx.save();
+
+    ctx.beginPath();
+    flag = true;
+    for( let p of curPnts ){
+        XX = W / 2.0 - e * p[0] / p[2];
+        YY = H / 2.0 + e * p[1] / p[2] + H;
+        if( flag ){ ctx.moveTo( XX, YY ); }
+        else      { ctx.lineTo( XX, YY ); }
+        flag = false;
+    }
+    ctx.closePath();
+    ctx.stroke();
+    ctx.clip();
+
+    //ctx.drawImage(imageBitmap, x, y, w, h, 0, H,W, H );
+
+
+
+    //wb = imageBitmap.width;
+    //hb = imageBitmap.height;
+    if ( W / H < wb / hb ){
+        let w =  W / H * hb;
+        let x = ( wb - w ) / 2;
+            ctx.drawImage(imageBitmap, x, 0, w, hb, 0, H ,W, H );
+    } else {
+        let h =  H / W * wb;
+        let y = ( hb - h ) / 2;
+        ctx.drawImage(imageBitmap, 0, y, wb, h, 0, H ,W, H );
+    }
+
+
 
     ctx.restore();
 
@@ -338,7 +396,7 @@ function SceneView( canvas ){
 
     //
     //-------------------
-    //    ’nŒ`
+    //    åœ°å½¢
     //-------------------
 
     glView.addGeomObje( 'geom' );
@@ -352,7 +410,7 @@ function SceneView( canvas ){
 
     //
     //-------------------
-    //    ‹ó`
+    //    ç©ºæ¸¯
     //-------------------
 
     var color =  [ 0.1, 0.1, 0.1,1.0,  0.5, 0.5, 0.0,1.0,  0.0, 0.0, 0.0, 1.0, 50]
@@ -421,7 +479,7 @@ SceneView.prototype.update = function( dcm ){
 
 //--------------------------------------------------------
 //
-//	”ŠwŠÖ”
+//	æ•°å­¦é–¢æ•°
 //
 //--------------------------------------------------------
 
@@ -781,6 +839,5 @@ function base64ToArrayBuffer(base64) {
   }
   return bytes.buffer;
 }
-
 
 
